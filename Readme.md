@@ -1,7 +1,9 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Семён Крекотун](https://up.htmlacademy.ru/javascript/26/user/2002913).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Хабиров](https://htmlacademy.ru/profile/alex_khab).
+
+
 
 ---
 
