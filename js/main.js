@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 const getRandomInteger = (min, max) => {
   if (min > max || min < 0 || max <= 0) {
-    return ('Задан неверный диапазон! Укажите другие числа.');
+    throw new RangeError ('Задан неверный диапазон! Укажите другие числа.');
   }
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -10,7 +10,7 @@ const getRandomInteger = (min, max) => {
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно. Источник MDN
 const getRandomNumber = (min, max, decimalPoint = 5) => {
   if (min > max || min < 0 || max <= 0) {
-    return ('Задан неверный диапазон! Укажите другие числа.');
+    throw new RangeError (`Задан неверный диапазон! Укажите другие числа. Параметр должен быть между ${min} и ${max}`);
   }
   const random = Math.random() * (max - min) + min;
   return +(random.toFixed(decimalPoint));
