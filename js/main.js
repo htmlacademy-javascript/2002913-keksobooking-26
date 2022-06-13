@@ -2,7 +2,9 @@
 //const
 const AVATARS = [];
 for (let i = 1; i <=10; i++) {
-  AVATARS.push(i);
+  if (i ===  10) {
+    AVATARS.push(i);}
+  AVATARS.push(`${0}${i}`);
 }
 
 const TITLES = [
@@ -88,9 +90,9 @@ const getRandomNumber = (min, max, decimalPoint = 5) => {
   return +(random.toFixed(decimalPoint));
 };
 
-const randomLat = getRandomNumber(35.65000, 35.70000);
+// const randomLat =  getRandomNumber(35.65000, 35.70000);
 
-const randomLng = getRandomNumber(139.70000, 139.80000);
+// const randomLng = getRandomNumber(139.70000, 139.80000);
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
@@ -100,7 +102,7 @@ const createAd = () => ({
   },
   offer : {
     title : getRandomArrayElement(TITLES),
-    address : `${randomLat}, ${randomLng}`,
+    address : `${location.lat}, ${location.lng}`,
     type : getRandomArrayElement(TYPES),
     rooms :  getRandomPositiveInteger(1, 6),
     price : getRandomPositiveInteger(1, 10),
@@ -112,8 +114,8 @@ const createAd = () => ({
     photos : getArray(PHOTOS),
   },
   location : {
-    lat : randomLat,
-    lng : randomLng,
+    lat : getRandomNumber(35.65000, 35.70000),
+    lng : getRandomNumber(139.70000, 139.80000),
   },
 });
 
