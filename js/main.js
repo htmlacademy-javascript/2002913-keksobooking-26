@@ -1,11 +1,3 @@
-const AVATARS = [];
-for (let i = 1; i <= 10; i++) {
-  if (i ===  10) {
-    AVATARS.push(i);} else {
-    AVATARS.push(`${0}${i}`);
-  }
-}
-
 const TITLES = [
   'Уютное гнездышко для молодоженов',
   'Логово холостяка',
@@ -56,48 +48,53 @@ const PHOTOS = [
 
 
 const APARTMENTS_AMOUNT = 10;
-//selectors
-//functions,list
+
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   const result = Math.random() * (upper - lower + 1) + lower;
+
   return Math.floor(result);
 };
 
 const getArray = (arr) => {
-  const maxLength = arr.length;
-  const lengthOfArray = getRandomPositiveInteger(1, maxLength);
+  const random = getRandomPositiveInteger(1, arr.length);
   const array = [];
 
-  while (array.length < lengthOfArray) {
-    const indexOfEl = getRandomPositiveInteger(0, maxLength - 1);
+  while (array.length < random) {
+    const indexOfEl = getRandomPositiveInteger(0, arr.length - 1);
     const el = arr[indexOfEl];
 
     if (!array.includes(el)) {
       array.push(el);
     }
   }
+
   return array;
 };
 
 const getRandomNumber = (min, max, decimalPoint = 5) => {
+
   if (min > max || min < 0 || max <= 0) {
     throw new RangeError(`Задан неверный диапазон! Укажите другие числа. Параметр должен быть между ${min} и ${max}`);
   }
   const random = Math.random() * (max - min) + min;
+
   return +(random.toFixed(decimalPoint));
 };
 
-// const randomLat =  getRandomNumber(35.65000, 35.70000);
-
-// const randomLng = getRandomNumber(139.70000, 139.80000);
-
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-const createAd = () => {
+const createAd = (i) => {
   const randomLat =  getRandomNumber(35.65000, 35.70000);
   const randomLng = getRandomNumber(139.70000, 139.80000);
+  const AVATARS = [i];
+
+  if (i ===  10) {
+    AVATARS.push(i);} else {
+    AVATARS.push(`${0}${i}`);
+  }
+
   return {
     author : {
       avatar : `img/avatars/user${getRandomArrayElement(AVATARS)}.png`
@@ -126,7 +123,7 @@ const createAd = () => {
 const createAds = () => {
   const data = [];
 
-  for (let i = 0; i < APARTMENTS_AMOUNT; i++) {
+  for (let i = 1; i <= APARTMENTS_AMOUNT; i++) {
     const ad = createAd(i);
     data.push(ad);
   }
