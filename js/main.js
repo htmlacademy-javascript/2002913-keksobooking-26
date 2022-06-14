@@ -1,10 +1,9 @@
-//imports
-//const
 const AVATARS = [];
-for (let i = 1; i <=10; i++) {
+for (let i = 1; i <= 10; i++) {
   if (i ===  10) {
-    AVATARS.push(i);}
-  AVATARS.push(`${0}${i}`);
+    AVATARS.push(i);} else {
+    AVATARS.push(`${0}${i}`);
+  }
 }
 
 const TITLES = [
@@ -96,30 +95,43 @@ const getRandomNumber = (min, max, decimalPoint = 5) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-const createAd = () => ({
-  author : {
-    avatar : `img/avatars/user${getRandomArrayElement(AVATARS)}.png`
-  },
-  offer : {
-    title : getRandomArrayElement(TITLES),
-    address : `${location.lat}, ${location.lng}`,
-    type : getRandomArrayElement(TYPES),
-    rooms :  getRandomPositiveInteger(1, 6),
-    price : getRandomPositiveInteger(1, 10),
-    guests : getRandomPositiveInteger(1, 10),
-    checkin : getRandomArrayElement(CHECKIN),
-    checkout : getRandomArrayElement(CHECKOUT),
-    features : getArray(FEATURES),
-    description : getRandomArrayElement(DESCRIPTIONS),
-    photos : getArray(PHOTOS),
-  },
-  location : {
-    lat : getRandomNumber(35.65000, 35.70000),
-    lng : getRandomNumber(139.70000, 139.80000),
-  },
-});
+const createAd = () => {
+  const randomLat =  getRandomNumber(35.65000, 35.70000);
+  const randomLng = getRandomNumber(139.70000, 139.80000);
+  return {
+    author : {
+      avatar : `img/avatars/user${getRandomArrayElement(AVATARS)}.png`
+    },
+    offer : {
+      title : getRandomArrayElement(TITLES),
+      address : `${randomLat}, ${randomLng}`,
+      type : getRandomArrayElement(TYPES),
+      rooms :  getRandomPositiveInteger(1, 6),
+      price : getRandomPositiveInteger(1, 10),
+      guests : getRandomPositiveInteger(1, 10),
+      checkin : getRandomArrayElement(CHECKIN),
+      checkout : getRandomArrayElement(CHECKOUT),
+      features : getArray(FEATURES),
+      description : getRandomArrayElement(DESCRIPTIONS),
+      photos : getArray(PHOTOS),
+    },
+    location : {
+      lat : randomLat,
+      lng : randomLng,
+    },
+  };
+};
 
-const createAds = Array.from({length: APARTMENTS_AMOUNT}, createAd);
-//exe
+
+const createAds = () => {
+  const data = [];
+
+  for (let i = 0; i < APARTMENTS_AMOUNT; i++) {
+    const ad = createAd(i);
+    data.push(ad);
+  }
+
+  return data;
+};
 
 createAds();
