@@ -88,7 +88,7 @@ const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,
 const createAd = (i) => {
   const randomLat =  getRandomNumber(35.65000, 35.70000);
   const randomLng = getRandomNumber(139.70000, 139.80000);
-  const AVATARS = [i];
+  const AVATARS = [];
 
   if (i ===  10) {
     AVATARS.push(i);} else {
