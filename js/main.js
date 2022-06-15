@@ -46,6 +46,15 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+// const randomLat =  getRandomNumber(35.65000, 35.70000);
+//   const randomLng = getRandomNumber(139.70000, 139.80000);
+const TOKIO_MIN_LAT = 35.65000;
+
+const TOKIO_MAX_LAT = 35.70000;
+
+const TOKIO_MIN_LNG = 139.70000;
+
+const TOKIO_MAX_LNG = 139.80000;
 
 const APARTMENTS_AMOUNT = 10;
 
@@ -86,8 +95,8 @@ const getRandomNumber = (min, max, decimalPoint = 5) => {
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
 const createAd = (i) => {
-  const randomLat =  getRandomNumber(35.65000, 35.70000);
-  const randomLng = getRandomNumber(139.70000, 139.80000);
+  const randomLat =  getRandomNumber(TOKIO_MIN_LAT, TOKIO_MAX_LAT);
+  const randomLng = getRandomNumber(TOKIO_MIN_LNG, TOKIO_MAX_LNG);
   const AVATARS = [];
 
   if (i ===  10) {
