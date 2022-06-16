@@ -97,16 +97,12 @@ const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,
 const createAd = (i) => {
   const randomLat =  getRandomNumber(TOKIO_MIN_LAT, TOKIO_MAX_LAT);
   const randomLng = getRandomNumber(TOKIO_MIN_LNG, TOKIO_MAX_LNG);
-  const AVATARS = [];
+  const avatar = i < 10 ? '0%{i}' : i;
 
-  if (i ===  10) {
-    AVATARS.push(i);} else {
-    AVATARS.push(`${0}${i}`);
-  }
 
   return {
     author : {
-      avatar : `img/avatars/user${getRandomArrayElement(AVATARS)}.png`
+      avatar : `img/avatars/user${avatar}.png`
     },
     offer : {
       title : getRandomArrayElement(TITLES),
