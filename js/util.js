@@ -16,7 +16,7 @@ const getRandomNumber = (min, max, decimalPoint = 5) => {
   return +(random.toFixed(decimalPoint));
 };
 
-const getArray = (arr) => {
+const getRandomArray = (arr) => {
   const random = getRandomPositiveInteger(1, arr.length);
   const array = [];
 
@@ -34,7 +34,9 @@ const getArray = (arr) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-export {getRandomArrayElement};
-export {getRandomPositiveInteger};
-export {getRandomNumber};
-export {getArray};
+export {
+  getRandomArrayElement,
+  getRandomPositiveInteger,
+  getRandomNumber,
+  getRandomArray
+};

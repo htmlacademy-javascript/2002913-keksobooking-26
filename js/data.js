@@ -1,7 +1,9 @@
-import {getRandomArrayElement} from './util.js';
-import {getRandomPositiveInteger} from './util.js';
-import {getRandomNumber} from './util.js';
-import {getArray} from './util.js';
+import {
+  getRandomArrayElement,
+  getRandomPositiveInteger,
+  getRandomNumber,
+  getRandomArray
+} from './util.js';
 
 const TITLES = [
   'Уютное гнездышко для молодоженов',
@@ -81,9 +83,9 @@ const createAd = (i) => {
       guests : getRandomPositiveInteger(1, 10),
       checkin : getRandomArrayElement(CHECKIN),
       checkout : getRandomArrayElement(CHECKOUT),
-      features : getArray(FEATURES),
+      features : getRandomArray(FEATURES),
       description : getRandomArrayElement(DESCRIPTIONS),
-      photos : getArray(PHOTOS),
+      photos : getRandomArray(PHOTOS),
     },
     location : {
       lat : randomLat,
