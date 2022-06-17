@@ -1,7 +1,7 @@
-import {getRandomArrayElement} from './util';
-import {getRandomPositiveInteger} from './util';
-import {getRandomNumber} from './util';
-import {getArray} from './util';
+import {getRandomArrayElement} from './util.js';
+import {getRandomPositiveInteger} from './util.js';
+import {getRandomNumber} from './util.js';
+import {getArray} from './util.js';
 
 const TITLES = [
   'Уютное гнездышко для молодоженов',
