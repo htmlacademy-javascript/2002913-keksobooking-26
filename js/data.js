@@ -41,7 +41,7 @@ const FEATURES = [
 ];
 
 const DESCRIPTIONS = [
-  'панорманые окна',
+  'панорамные окна',
   'совместный санузел',
   'есть кабинет',
   'детская кроватка'
@@ -67,19 +67,19 @@ const APARTMENTS_AMOUNT = 10;
 const createAd = (i) => {
   const randomLat =  getRandomNumber(TOKIO_MIN_LAT, TOKIO_MAX_LAT);
   const randomLng = getRandomNumber(TOKIO_MIN_LNG, TOKIO_MAX_LNG);
-  const avatar = i < 10 ? '0%{i}' : i;
+  const AVATARS = i < 10 ? `0${i}` : i;
 
 
   return {
     author : {
-      avatar : `img/avatars/user${avatar}.png`
+      avatar : `img/avatars/user${AVATARS}.png`
     },
     offer : {
       title : getRandomArrayElement(TITLES),
       address : `${randomLat}, ${randomLng}`,
       type : getRandomArrayElement(TYPES),
       rooms :  getRandomPositiveInteger(1, 6),
-      price : getRandomPositiveInteger(1, 10),
+      price : getRandomPositiveInteger(1, 10000),
       guests : getRandomPositiveInteger(1, 10),
       checkin : getRandomArrayElement(CHECKIN),
       checkout : getRandomArrayElement(CHECKOUT),
