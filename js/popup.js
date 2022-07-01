@@ -42,12 +42,12 @@ const renderCard = ({ offer, author}) => {
 
   adElement.querySelector('.popup__title').textContent = offer.title;
   adElement.querySelector('.popup__text--address').textContent = offer.address;
-  priceContainer.innerHTML = '';
-  priceContainer.insertAdjacentHTML('afterend', `${offer.price} <span>₽/ночь</span>`);
   adElement.querySelector('.popup__type').textContent = typeDictionary[offer.type];
   adElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   adElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   adElement.querySelector('.popup__avatar').src = author.avatar;
+  priceContainer.innerHTML = '';
+  priceContainer.insertAdjacentHTML('afterend', `${offer.price} <span>₽/ночь</span>`);
 
   if (offer.description !== undefined) {
     descriptionContainer.textContent = offer.description;
