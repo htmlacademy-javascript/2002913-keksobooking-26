@@ -1,37 +1,30 @@
-//Функция которая переводит в неактивное состояние
-
-//форма с классом .ad-form содержит .ad-form--disabled;
-//добавляется атрибут disabled на них или их родителе  fieldset; слайдер заблокировать;
-
-//Формы с .map__filters заблокировать спец классом и на ее интерактивные элементы атрибут disabled.
-
 const mainForm = document.querySelector('.ad-form');
-const mainFormList = mainForm.children;
+const mainFormList = document.querySelectorAll('fieldset, select');
+const mapFilters = document.querySelector('.map__filters');
+const mapFiltersList = document.querySelectorAll('fieldset, select');
 
-const addInactiveState = (element) => {
-  element.classList.add('ad-form--disabled');
-};
-
-const addActiveState = (element) => {
-  element.classList.remove('ad-form--disabled');
-};
-
-
-addActiveState(mainForm);
-console.log(mainFormList)
-
-
-const getInputDisabled = (some) = {
-
-  some.forEach((item) => {
-   item.setAttribute('disabled', 'disabled');
-  })
-};
-
-const getInputActive = (elements) = {
-
+const toggleElements = (elements, value) => {
   elements.forEach((element) => {
-  element.removeAttribute('disabled', 'disabled');
-  })
+    element.disabled = value;
+  });
 };
+
+const deactivatePage = () => {
+  mainForm.classList.add('ad-form--disabled');
+  mapFilters.classList.add('map__filters--disabled');
+  toggleElements(mainFormList, true);
+  toggleElements(mapFiltersList, true);
+};
+
+const activateForm = () => {
+  mainForm.classList.remove('ad-form--disabled');
+  toggleElements(mainFormList, false);
+};
+
+const activateFilters = () => {
+  mapFilters.classList.remove('map__filters--disabled');
+  toggleElements(mapFiltersList, false);
+};
+
+export {deactivatePage, activateForm, activateFilters};
 
