@@ -1,7 +1,8 @@
-import './popup.js';
+import './user-form.js';
 import {deactivatePage, activateForm, activateFilters} from './form-state.js';
 import {createAds} from './data.js';
 import {renderCard} from './popup.js';
+
 
 const mapCanvas = document.querySelector('#map-canvas');
 
