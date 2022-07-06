@@ -10,11 +10,11 @@ const minPriceDictionary = {
   palace:  10000,
 };
 
-const roomNumberOption = {
-  1 :  [1] ,
-  2 : [2, 1],
-  3 : [3, 2, 1],
-  100 : [0],
+const roomNumberOptions = {
+  '1' :  ['1'] ,
+  '2' : ['2', '1'],
+  '3' : ['3', '2', '1'],
+  '100' : ['0'],
 };
 
 const roomNumber = form.querySelector('#room_number');
@@ -54,9 +54,7 @@ const getPriceErrorMessage = () => `Минимальная цена ${minPriceDi
 pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
 
 
-const validateCapacity = () => {
-  roomNumberOption[roomNumber.value].includes(capacity.value);
-};
+const validateCapacity = () => roomNumberOptions[roomNumber.value].includes(capacity.value);
 
 const getRoomErrorMessage = () => 'Количество комнат не соответсвует количеству гостей';
 
@@ -65,10 +63,16 @@ const getCapacityErrorMessage = () => 'Количество гостей не с
 pristine.addValidator(roomNumber, validateCapacity, getRoomErrorMessage);
 pristine.addValidator(capacity, validateCapacity, getCapacityErrorMessage);
 
+
 const setupValidtion = () => {
   pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
   pristine.addValidator(roomNumber, validateCapacity, getRoomErrorMessage);
   pristine.addValidator(capacity, validateCapacity, getCapacityErrorMessage);
+
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    pristine.validate();
+  });
 };
 
 export {setupValidtion};
