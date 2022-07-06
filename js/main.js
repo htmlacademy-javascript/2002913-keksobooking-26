@@ -1,4 +1,4 @@
-import './user-form.js';
+import {setupValidtion} from './user-form.js';
 import {deactivatePage, activateForm, activateFilters} from './form-state.js';
 import {createAds} from './data.js';
 import {renderCard} from './popup.js';
@@ -13,4 +13,5 @@ mapCanvas.appendChild(card);
 deactivatePage();
 activateForm();
 activateFilters();
+setupValidtion();
 
