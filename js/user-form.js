@@ -18,6 +18,8 @@ const type = form.querySelector('#type');
 const priceField = form.querySelector('#price');
 const roomNumber = form.querySelector('#room_number');
 const capacity = form.querySelector('#capacity');
+const timeIn = form.querySelector('#timein');
+const timeOut = form.querySelector('#timeout');
 
 
 const minPrice = minPriceDictionary[type.value];
@@ -39,6 +41,14 @@ const onTypeChange = () => {
   priceField.placeholder = minPriceDictionary[type.value];
   pristine.validate(priceField);
 };
+const onTimeInChange = () => {
+  timeOut.value = timeIn.value;
+  pristine.validate(timeIn);
+};
+const onTimeOutChange = () => {
+  timeIn.value = timeOut.value;
+  pristine.validate(timeOut);
+};
 
 const validatePrice = (value) => value >= minPrice && value <= MAX_PRICE;
 const validateCapacity = () => roomNumberOptions[roomNumber.value].includes(capacity.value);
@@ -50,13 +60,15 @@ const getRoomErrorMessage = () => 'Количество комнат не соо
 
 const getCapacityErrorMessage = () => 'Количество гостей не соответствует количеству комнат';
 
-type.addEventListener('change', onTypeChange);
 
 const setupValidation = () => {
   pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
   pristine.addValidator(roomNumber, validateCapacity, getRoomErrorMessage);
   pristine.addValidator(capacity, validateCapacity, getCapacityErrorMessage);
 
+  type.addEventListener('change', onTypeChange);
+  timeIn.addEventListener('change', onTimeInChange);
+  timeOut.addEventListener('change', onTimeOutChange);
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     pristine.validate();
