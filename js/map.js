@@ -1,9 +1,7 @@
 import {activateForm} from './form-state.js';
 import {createAds} from './data.js';
-// import {renderCard} from './popup.js';
+import {renderCard} from './popup.js';
 
-const simulateAds = createAds();
-const address = document.querySelector('#address');
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -12,14 +10,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: 35.65283,
     lng: 139.73947,
-  }, 10);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+  }, 12);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -44,7 +35,22 @@ const marker = L.marker(
   },
 );
 
-createAds();
+const simulateAds = createAds();
+const address = document.querySelector('#address');
+
+const createMarker = (adv) => {
+  const reularMarker = L.marker(adv.location, {icon:pinIcon});
+  reularMarker
+    .addTo(map)
+    .bindPopup(renderCard(adv));
+};
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
 
 marker.addTo(map);
 
@@ -53,13 +59,11 @@ marker.on('moveend', (evt) => {
   address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
 });
 
-const creatMarker = (point) => {
-  const reularMarker = L.marker(point, {icon:pinIcon});
-  reularMarker.addTo(map);
+
+const simulateRegularMarcers = () => {
+  simulateAds.forEach((adv) => {
+    createMarker(adv, {icon: pinIcon,});
+  });
 };
 
-simulateAds.forEach((adv) => {
-  creatMarker(adv.location, {icon: pinIcon,});
-});
-
-// console.log(pinIcon);
+export {simulateRegularMarcers};

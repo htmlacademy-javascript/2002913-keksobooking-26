@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="leaflet/leaflet.css">
+  <link rel="stylesheet" href="nouislider/nouislider.css">
   <title>Кексобукинг</title>
 </head>
 <body>
@@ -126,7 +127,7 @@
             max="100000"
             required
             data-pristine-required-message = "Обязательное поле">
-          <div class="ad-form__slider"></div>
+          <div class="ad-form__slider" id="slider"></div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -250,6 +251,7 @@
   </template>
 <script src="pristine/pristine.min.js"></script>
 <script src="leaflet/leaflet.js" crossorigin=""></script>
+<script src="nouislider/nouislider.js"></script>
 <script src="/js/main.js" type="module"></script>
 </body>
 </html>

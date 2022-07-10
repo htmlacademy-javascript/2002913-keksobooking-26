@@ -1,14 +1,7 @@
 import {setupValidation} from './user-form.js';
-// import {createAds} from './data.js';
-// import {renderCard} from './popup.js';
-import './map.js';
+import {simulateRegularMarcers} from './map.js';
+import './slider.js';
 
 
-// const mapCanvas = document.querySelector('#map-canvas');
-
-// const simulateAds = createAds();
-// const card = renderCard(simulateAds[0]);
-
-// mapCanvas.appendChild(card);
 setupValidation();
-
+simulateRegularMarcers();
