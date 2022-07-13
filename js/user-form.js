@@ -1,4 +1,5 @@
 const MAX_PRICE = 100000;
+
 const minPriceDictionary = {
   bungalow:  0,
   flat:  1000,
@@ -6,6 +7,7 @@ const minPriceDictionary = {
   house:  5000,
   palace:  10000,
 };
+
 const roomNumberOptions = {
   '1' :  ['1'] ,
   '2' : ['2', '1'],
@@ -39,6 +41,7 @@ const pristine = new Pristine(
 
 const onTypeChange = () => {
   priceField.placeholder = minPriceDictionary[type.value];
+  priceField.min = minPriceDictionary[type.value];
   pristine.validate(priceField);
 };
 const onTimeInChange = () => {
@@ -48,6 +51,14 @@ const onTimeInChange = () => {
 const onTimeOutChange = () => {
   timeIn.value = timeOut.value;
   pristine.validate(timeOut);
+};
+
+const onTimeInChange = () => {
+  timeOut.value = timeIn.value;
+};
+
+const onTimeOutChange = () => {
+  timeIn.value = timeOut.value;
 };
 
 const validatePrice = (value) => value >= minPrice && value <= MAX_PRICE;

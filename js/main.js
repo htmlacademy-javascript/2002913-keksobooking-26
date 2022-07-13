@@ -1,18 +1,8 @@
 import {setupValidation} from './user-form.js';
-import {deactivatePage, activateForm, activateFilters} from './form-state.js';
+import {initMap} from './map.js';
 import {createAds} from './data.js';
-import {renderCard} from './popup.js';
+import './slider.js';
 
-
-const mapCanvas = document.querySelector('#map-canvas');
-
-const simulateAds = createAds();
-const card = renderCard(simulateAds[0]);
-
-mapCanvas.appendChild(card);
-deactivatePage();
-activateForm();
-activateFilters();
+const ads = createAds();
 setupValidation();
-
-
+initMap(ads);
