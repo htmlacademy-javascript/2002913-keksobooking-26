@@ -9,11 +9,14 @@ noUiSlider.create(sliderPrice, {
     max: 100000,
   },
   start:1000,
-  step: 1000,
+  step: 1,
   connect: 'lower',
   format: {
     to: function (value) {
-      return value;
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(0);
     },
     from: function (value) {
       return parseFloat(value);
