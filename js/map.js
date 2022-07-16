@@ -6,6 +6,7 @@ const SIZE_REGULAR_PIN = 40;
 const DEFAULT_LAT_MAIN_MARKER = 35.65283;
 const DEFAULT_LNG_MAIN_MARKER = 139.73947;
 const DEFAULT_SCALE_MAP = 12;
+const APARTMENTS_AMOUNT = 10;
 const DefaultLocationMainMarker = {
   lat: DEFAULT_LAT_MAIN_MARKER,
   lng: DEFAULT_LNG_MAIN_MARKER,
@@ -55,10 +56,15 @@ const onMarkerMove =  (evt) => {
 };
 
 
-const initMap = (data) => {
+const initMap = () => {
   map.on('load', () => {
     activateForm();
     address.value = `${DEFAULT_LAT_MAIN_MARKER}  ${DEFAULT_LNG_MAIN_MARKER}`;
+    fetch('https://26.javascript.pages.academy/keksobooking/data')
+      .then((response) => response.json())
+      .then((data) => {
+        renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
+      });
   })
     .setView(DefaultLocationMainMarker, DEFAULT_SCALE_MAP);
 
@@ -71,7 +77,7 @@ const initMap = (data) => {
 
   mainMarker.addTo(map);
   mainMarker.on('move', onMarkerMove);
-  renderMarkers(data);
+
 
 };
 

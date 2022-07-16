@@ -44,14 +44,6 @@ const onTypeChange = () => {
   priceField.min = minPriceDictionary[type.value];
   pristine.validate(priceField);
 };
-const onTimeInChange = () => {
-  timeOut.value = timeIn.value;
-  pristine.validate(timeIn);
-};
-const onTimeOutChange = () => {
-  timeIn.value = timeOut.value;
-  pristine.validate(timeOut);
-};
 
 const onTimeInChange = () => {
   timeOut.value = timeIn.value;

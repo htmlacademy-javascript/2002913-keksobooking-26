@@ -55,14 +55,14 @@ const renderCard = ({ offer, author}) => {
     descriptionContainer.remove();
   }
 
-  if (offer.features.length !== 0) {
+  if (offer.features && offer.features.length !== 0) {
     featureContainer.innerHTML = '';
     fillFeatures(offer.features, featureContainer);
   } else {
     featureContainer.remove();
   }
 
-  if (offer.photos.length !== 0) {
+  if (offer.photos && offer.photos.length !== 0) {
     photoContainer.innerHTML = '';
     fillPhotos(offer.photos, photoContainer);
   } else {

@@ -1,8 +1,9 @@
 import {setupValidation} from './user-form.js';
 import {initMap} from './map.js';
-import {createAds} from './data.js';
+// import {createAds} from './data.js';
 import './slider.js';
+import './api.js';
 
-const ads = createAds();
+// const ads = createAds();
 setupValidation();
-initMap(ads);
+initMap();
