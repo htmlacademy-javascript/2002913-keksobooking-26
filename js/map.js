@@ -1,5 +1,6 @@
 import {activateForm} from './form-state.js';
 import {renderCard} from './popup.js';
+import {getDate} from './api.js';
 
 const SIZE_MAIN_PIN = 52;
 const SIZE_REGULAR_PIN = 40;
@@ -60,11 +61,9 @@ const initMap = () => {
   map.on('load', () => {
     activateForm();
     address.value = `${DEFAULT_LAT_MAIN_MARKER}  ${DEFAULT_LNG_MAIN_MARKER}`;
-    fetch('https://26.javascript.pages.academy/keksobooking/data')
-      .then((response) => response.json())
-      .then((data) => {
-        renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
-      });
+    getDate((data) => {
+      renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
+    });
   })
     .setView(DefaultLocationMainMarker, DEFAULT_SCALE_MAP);
 
