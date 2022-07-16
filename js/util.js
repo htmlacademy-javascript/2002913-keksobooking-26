@@ -1,5 +1,7 @@
 const ALERT_SHOW_TIME = 5000;
 
+const createErrorTemplate = document.querySelector('#error').content.querySelector('.error');
+
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
@@ -55,6 +57,15 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const renderError = () => {
+  const adElement = createErrorTemplate.cloneNode(true);
+  document.body.append(adElement);
+
+  setTimeout(() => {
+    adElement.remove();
+  }, ALERT_SHOW_TIME);
+};
+
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
 export {
@@ -63,4 +74,6 @@ export {
   getRandomNumber,
   getRandomArray,
   showAlert,
+  renderError,
 };
+

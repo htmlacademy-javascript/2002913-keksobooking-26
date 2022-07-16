@@ -1,3 +1,6 @@
+import { sendData } from './api.js';
+import { renderError } from './util.js';
+
 const MAX_PRICE = 100000;
 
 const minPriceDictionary = {
@@ -22,6 +25,7 @@ const roomNumber = form.querySelector('#room_number');
 const capacity = form.querySelector('#capacity');
 const timeIn = form.querySelector('#timein');
 const timeOut = form.querySelector('#timeout');
+const submitButton = form.querySelector('.ad-form__submit');
 
 
 const minPrice = minPriceDictionary[type.value];
@@ -63,8 +67,17 @@ const getRoomErrorMessage = () => 'Количество комнат не соо
 
 const getCapacityErrorMessage = () => 'Количество гостей не соответствует количеству комнат';
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
 
-const setupValidation = () => {
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setupValidation = (onSuccess) => {
   pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
   pristine.addValidator(roomNumber, validateCapacity, getRoomErrorMessage);
   pristine.addValidator(capacity, validateCapacity, getCapacityErrorMessage);
@@ -74,15 +87,20 @@ const setupValidation = () => {
   timeOut.addEventListener('change', onTimeOutChange);
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
+
     const isValid = pristine.validate();
     if(isValid) {
-      const formData = new FormData(evt.target);
-      fetch(
-        'https://26.javascript.pages.academy/keksobooking/data',
-        {
-          method: 'POST',
-          body: formData,
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
         },
+        () => {
+          renderError();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
       );
     }
   });

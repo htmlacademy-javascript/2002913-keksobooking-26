@@ -17,4 +17,24 @@ const getDate = (onSuccess) => {
     });
 };
 
-export {getDate};
+const sendData = (onSuccess, onFail, body) => {
+  fetch(
+    'https://26.javascript.pages.academ/keksobooking',
+    {
+      method: 'POST',
+      body,
+    },
+  )
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFail();
+      }
+    })
+    .catch(() => {
+      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+    });
+};
+
+export {getDate, sendData};
