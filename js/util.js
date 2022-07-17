@@ -1,6 +1,8 @@
 const ALERT_SHOW_TIME = 5000;
 
 const createErrorTemplate = document.querySelector('#error').content.querySelector('.error');
+const ErrorTemplateButton = document.querySelector('#error').content.querySelector('.error__button');
+const createSuccessTemplate = document.querySelector('#success').content.querySelector('.success');
 
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -57,13 +59,40 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 const renderError = () => {
   const adElement = createErrorTemplate.cloneNode(true);
   document.body.append(adElement);
 
-  setTimeout(() => {
+  adElement.addEventListener('click', () => {
     adElement.remove();
-  }, ALERT_SHOW_TIME);
+  });
+  ErrorTemplateButton.addEventListener('click', () => {
+    adElement.remove();
+  });
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey) {
+      evt.preventDefault();
+      adElement.remove();
+    }
+  });
+};
+
+const renderSuccess = () => {
+  const adElement = createSuccessTemplate.cloneNode(true);
+  document.body.append(adElement);
+
+  adElement.addEventListener('click', () => {
+    adElement.remove();
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey) {
+      evt.preventDefault();
+      adElement.remove();
+    }
+  });
 };
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
@@ -75,5 +104,6 @@ export {
   getRandomArray,
   showAlert,
   renderError,
+  renderSuccess,
 };
 

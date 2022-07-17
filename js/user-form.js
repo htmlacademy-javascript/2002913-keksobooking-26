@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { renderError } from './util.js';
+import { renderError, renderSuccess } from './util.js';
 
 const MAX_PRICE = 100000;
 
@@ -77,7 +77,7 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const setupValidation = (onSuccess) => {
+const setupValidation = () => {
   pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
   pristine.addValidator(roomNumber, validateCapacity, getRoomErrorMessage);
   pristine.addValidator(capacity, validateCapacity, getCapacityErrorMessage);
@@ -93,7 +93,7 @@ const setupValidation = (onSuccess) => {
       blockSubmitButton();
       sendData(
         () => {
-          onSuccess();
+          renderSuccess();
           unblockSubmitButton();
         },
         () => {
