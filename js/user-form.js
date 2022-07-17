@@ -95,6 +95,7 @@ const setupValidation = () => {
         () => {
           renderSuccess();
           unblockSubmitButton();
+          form.reset();
         },
         () => {
           renderError();
