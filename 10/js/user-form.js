@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { renderError } from './util.js';
+import { renderPopupError, renderPopupSuccess } from './util.js';
 
 const MAX_PRICE = 100000;
 
@@ -77,7 +77,18 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const setupValidation = (onSuccess) => {
+const onSendSuccess = () => {
+  renderPopupSuccess();
+  unblockSubmitButton();
+  form.reset();
+};
+
+const onSendError = () => {
+  renderPopupError();
+  unblockSubmitButton();
+};
+
+const setupValidation = () => {
   pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
   pristine.addValidator(roomNumber, validateCapacity, getRoomErrorMessage);
   pristine.addValidator(capacity, validateCapacity, getCapacityErrorMessage);
@@ -85,25 +96,17 @@ const setupValidation = (onSuccess) => {
   type.addEventListener('change', onTypeChange);
   timeIn.addEventListener('change', onTimeInChange);
   timeOut.addEventListener('change', onTimeOutChange);
+
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
+
     if(isValid) {
       blockSubmitButton();
-      sendData(
-        () => {
-          onSuccess();
-          unblockSubmitButton();
-        },
-        () => {
-          renderError();
-          unblockSubmitButton();
-        },
-        new FormData(evt.target),
-      );
+      sendData(onSendSuccess, onSendError,new FormData(evt.target));
     }
   });
 };
 
-export {setupValidation};
+export {setupValidation, minPriceDictionary, type};

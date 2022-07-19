@@ -1,25 +1,20 @@
 import { showAlert } from './util.js';
 
-const getDate = (onSuccess) => {
-  fetch('https://26.javascript.pages.academy/keksobooking/data')
-    .then((response) => {
-      if(response.ok) {
-        response.json()
-          .then((data) => {
-            onSuccess(data);
-          });
-      } else {
-        showAlert('Не удалось загрузить данные');
-      }
-    })
-    .catch(() => {
-      showAlert('Не удалось загрузить данные');
-    });
+const GET_ERROR = 'Не удалось загрузить данные';
+const SEND_ERROR = 'Не удалось отправить форму. Попробуйте ещё раз';
+
+const API_URL = 'https://26.javascript.pages.academ/keksobooking';
+
+const getData = (onSuccess) => {
+  fetch(`${API_URL}/data`)
+    .then((response) => response.json())
+    .then((data) => onSuccess(data))
+    .catch(() => showAlert(GET_ERROR));
 };
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://26.javascript.pages.academy/keksobooking',
+    API_URL,
     {
       method: 'POST',
       body,
@@ -33,8 +28,8 @@ const sendData = (onSuccess, onFail, body) => {
       }
     })
     .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      onFail(SEND_ERROR);
     });
 };
 
-export {getDate, sendData};
+export {getData, sendData};
