@@ -107,4 +107,4 @@ const setupValidation = () => {
   });
 };
 
-export {setupValidation};
+export {setupValidation, minPriceDictionary, type};

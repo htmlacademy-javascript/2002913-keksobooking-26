@@ -1,6 +1,6 @@
-import {activateForm} from './form-state.js';
+import {activateForm, activateFilters} from './form-state.js';
 import {renderCard} from './popup.js';
-import {getDate} from './api.js';
+import {getData} from './api.js';
 
 const SIZE_MAIN_PIN = 52;
 const SIZE_REGULAR_PIN = 40;
@@ -9,6 +9,12 @@ const APARTMENTS_AMOUNT = 10;
 const DefaultLocation = {
   LAT: 35.65283,
   LNG: 139.73947,
+};
+const TileLayer = {
+  HTTP: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  ATTRIBUTION:  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
 };
 
 const address = document.querySelector('#address');
@@ -56,13 +62,16 @@ const onMarkerMove =  (evt) => {
   address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
 };
 
+const onDataLoad = (data) => {
+  renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
+  activateFilters();
+};
+
 const initMap = () => {
   map.on('load', () => {
     activateForm();
-    address.value = `${DefaultLocation.LAT}  ${DefaultLocation.LNG}`;
-    getDate((data) => {
-      renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
-    });
+    address.value = `${DefaultLocation.LAT}, ${DefaultLocation.LNG}`;
+    getData(onDataLoad);
   })
     .setView(
       {
@@ -70,12 +79,7 @@ const initMap = () => {
         lng: DefaultLocation.LNG,
       }, DEFAULT_SCALE_MAP);
 
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
+  L.tileLayer(TileLayer.HTTP, TileLayer.ATTRIBUTION,).addTo(map);
 
   mainMarker.addTo(map);
   mainMarker.on('move', onMarkerMove);

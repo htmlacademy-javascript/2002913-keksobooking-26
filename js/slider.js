@@ -1,30 +1,26 @@
+const MAX_RANGE_SLIDER = 100000;
 const sliderPrice = document.querySelector('#slider');
 const priceInput = document.querySelector('#price');
 
-priceInput.value = 1000;
 
 noUiSlider.create(sliderPrice, {
   range: {
     min: 0,
-    max: 100000,
+    max: MAX_RANGE_SLIDER,
   },
-  start:1000,
+  start: 0,
   step: 1,
   connect: 'lower',
   format: {
-    to: function (value) {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(0);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
+    to: (value) => value.toFixed(0),
+    from: (value) => parseInt(value, 10),
   },
 });
 
-sliderPrice.noUiSlider.on('update', () => {
-  priceInput.value = sliderPrice.noUiSlider.get();
-});
+const initPriceSlider = () => {
+  sliderPrice.noUiSlider.on('update', () => {
+    priceInput.value = sliderPrice.noUiSlider.get();
+  });
+};
 
+export {initPriceSlider};
