@@ -1,8 +1,11 @@
 const ALERT_SHOW_TIME = 5000;
 
-const createErrorTemplate = document.querySelector('#error').content.querySelector('.error');
-const ErrorTemplateButton = document.querySelector('#error').content.querySelector('.error__button');
-const createSuccessTemplate = document.querySelector('#success').content.querySelector('.success');
+const createErrorTemplate = document.querySelector('#error')
+  .content
+  .querySelector('.error');
+const createSuccessTemplate = document.querySelector('#success')
+  .content
+  .querySelector('.success');
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -27,14 +30,10 @@ const showAlert = (message) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const renderError = () => {
-  const adElement = createErrorTemplate.cloneNode(true);
+const renderPopup = (adElement) => {
   document.body.append(adElement);
 
   adElement.addEventListener('click', () => {
-    adElement.remove();
-  });
-  ErrorTemplateButton.addEventListener('click', () => {
     adElement.remove();
   });
   document.addEventListener('keydown', (evt) => {
@@ -45,26 +44,20 @@ const renderError = () => {
   });
 };
 
-const renderSuccess = () => {
+const renderPopupError = () => {
+  const adElement = createErrorTemplate.cloneNode(true);
+  renderPopup(adElement);
+};
+
+const renderPopupSuccess = () => {
   const adElement = createSuccessTemplate.cloneNode(true);
-  document.body.append(adElement);
-
-  adElement.addEventListener('click', () => {
-    adElement.remove();
-  });
-
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey) {
-      evt.preventDefault();
-      adElement.remove();
-    }
-  });
+  renderPopup(adElement);
 };
 
 
 export {
   showAlert,
-  renderError,
-  renderSuccess,
+  renderPopupError,
+  renderPopupSuccess,
 };
 
