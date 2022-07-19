@@ -1,3 +1,6 @@
+import { sendData } from './api.js';
+import { renderPopupError, renderPopupSuccess } from './util.js';
+
 const MAX_PRICE = 100000;
 
 const minPriceDictionary = {
@@ -22,6 +25,7 @@ const roomNumber = form.querySelector('#room_number');
 const capacity = form.querySelector('#capacity');
 const timeIn = form.querySelector('#timein');
 const timeOut = form.querySelector('#timeout');
+const submitButton = form.querySelector('.ad-form__submit');
 
 
 const minPrice = minPriceDictionary[type.value];
@@ -44,14 +48,6 @@ const onTypeChange = () => {
   priceField.min = minPriceDictionary[type.value];
   pristine.validate(priceField);
 };
-const onTimeInChange = () => {
-  timeOut.value = timeIn.value;
-  pristine.validate(timeIn);
-};
-const onTimeOutChange = () => {
-  timeIn.value = timeOut.value;
-  pristine.validate(timeOut);
-};
 
 const onTimeInChange = () => {
   timeOut.value = timeIn.value;
@@ -71,6 +67,26 @@ const getRoomErrorMessage = () => 'Количество комнат не соо
 
 const getCapacityErrorMessage = () => 'Количество гостей не соответствует количеству комнат';
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const onSendSuccess = () => {
+  renderPopupSuccess();
+  unblockSubmitButton();
+  form.reset();
+};
+
+const onSendError = () => {
+  renderPopupError();
+  unblockSubmitButton();
+};
 
 const setupValidation = () => {
   pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
@@ -80,10 +96,17 @@ const setupValidation = () => {
   type.addEventListener('change', onTypeChange);
   timeIn.addEventListener('change', onTimeInChange);
   timeOut.addEventListener('change', onTimeOutChange);
+
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
+
+    const isValid = pristine.validate();
+
+    if(isValid) {
+      blockSubmitButton();
+      sendData(onSendSuccess, onSendError,new FormData(evt.target));
+    }
   });
 };
 
-export {setupValidation};
+export {setupValidation, minPriceDictionary, type};

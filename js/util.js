@@ -1,42 +1,66 @@
-const getRandomPositiveInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  const result = Math.random() * (upper - lower + 1) + lower;
+const ALERT_SHOW_TIME = 5000;
 
-  return Math.floor(result);
+const createErrorTemplate = document.querySelector('#error')
+  .content
+  .querySelector('.error');
+const createSuccessTemplate = document.querySelector('#success')
+  .content
+  .querySelector('.success');
+
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '100';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '0';
+  alertContainer.style.right = '0';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
 };
 
-const getRandomNumber = (min, max, decimalPoint = 5) => {
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-  if (min > max || min < 0 || max <= 0) {
-    throw new RangeError(`Задан неверный диапазон! Укажите другие числа. Параметр должен быть между ${min} и ${max}`);
+const onPopupEscKeydown = (evt, adElement) => {
+  if (isEscapeKey) {
+    evt.preventDefault();
+    adElement.remove();
+    document.removeEventListener('keydown', onPopupEscKeydown);
   }
-  const random = Math.random() * (max - min) + min;
-
-  return +(random.toFixed(decimalPoint));
 };
 
-const getRandomArray = (arr) => {
-  const random = getRandomPositiveInteger(1, arr.length);
-  const array = [];
+const renderPopup = (adElement) => {
+  document.body.append(adElement);
 
-  while (array.length < random) {
-    const indexOfEl = getRandomPositiveInteger(0, arr.length - 1);
-    const el = arr[indexOfEl];
-
-    if (!array.includes(el)) {
-      array.push(el);
-    }
-  }
-
-  return array;
+  adElement.addEventListener('click', () => {
+    adElement.remove();
+  });
+  document.addEventListener('keydown', onPopupEscKeydown);
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+const renderPopupError = () => {
+  const adElement = createErrorTemplate.cloneNode(true);
+  renderPopup(adElement);
+};
+
+const renderPopupSuccess = () => {
+  const adElement = createSuccessTemplate.cloneNode(true);
+  renderPopup(adElement);
+};
+
 
 export {
-  getRandomArrayElement,
-  getRandomPositiveInteger,
-  getRandomNumber,
-  getRandomArray
+  showAlert,
+  renderPopupError,
+  renderPopupSuccess,
 };
+

@@ -1,14 +1,20 @@
-import {activateForm} from './form-state.js';
+import {activateForm, activateFilters} from './form-state.js';
 import {renderCard} from './popup.js';
+import {getData} from './api.js';
 
 const SIZE_MAIN_PIN = 52;
 const SIZE_REGULAR_PIN = 40;
-const DEFAULT_LAT_MAIN_MARKER = 35.65283;
-const DEFAULT_LNG_MAIN_MARKER = 139.73947;
 const DEFAULT_SCALE_MAP = 12;
-const DefaultLocationMainMarker = {
-  lat: DEFAULT_LAT_MAIN_MARKER,
-  lng: DEFAULT_LNG_MAIN_MARKER,
+const APARTMENTS_AMOUNT = 10;
+const DefaultLocation = {
+  LAT: 35.65283,
+  LNG: 139.73947,
+};
+const TileLayer = {
+  HTTP: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  ATTRIBUTION:  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
 };
 
 const address = document.querySelector('#address');
@@ -26,7 +32,10 @@ const pinIcon = L.icon({
 });
 
 const mainMarker = L.marker(
-  DefaultLocationMainMarker,
+  {
+    lat: DefaultLocation.LAT,
+    lng: DefaultLocation.LNG,
+  },
   {
     draggable: true,
     icon: mainPinIcon,
@@ -48,32 +57,32 @@ const renderMarkers = (data) => {
   });
 };
 
-
 const onMarkerMove =  (evt) => {
   const {lat, lng} = evt.target.getLatLng();
   address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
 };
 
+const onDataLoad = (data) => {
+  renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
+  activateFilters();
+};
 
-const initMap = (data) => {
+const initMap = () => {
   map.on('load', () => {
     activateForm();
-    address.value = `${DEFAULT_LAT_MAIN_MARKER}  ${DEFAULT_LNG_MAIN_MARKER}`;
+    address.value = `${DefaultLocation.LAT}, ${DefaultLocation.LNG}`;
+    getData(onDataLoad);
   })
-    .setView(DefaultLocationMainMarker, DEFAULT_SCALE_MAP);
+    .setView(
+      {
+        lat: DefaultLocation.LAT,
+        lng: DefaultLocation.LNG,
+      }, DEFAULT_SCALE_MAP);
 
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
+  L.tileLayer(TileLayer.HTTP, TileLayer.ATTRIBUTION,).addTo(map);
 
   mainMarker.addTo(map);
   mainMarker.on('move', onMarkerMove);
-  renderMarkers(data);
-
 };
-
 
 export {initMap};
