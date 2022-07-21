@@ -55,6 +55,7 @@ const createMarker = (adv) => {
 };
 
 const renderMarkers = (data) => {
+
   let ads = [];
   ads = data;
   fisterByType();

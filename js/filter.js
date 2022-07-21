@@ -25,6 +25,15 @@ const filterAds = () => {
 
 };
 
+
+// const setFilter = () => {
+//   typeFilterField.addEventListener('change', () =>{
+//     markerGroup.clearLayers();
+//     filterAds();
+//     renderMarkers(filterAds())
+//   });
+// };
+
 export {filterByType};
 
 

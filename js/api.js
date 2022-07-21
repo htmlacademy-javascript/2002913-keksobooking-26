@@ -5,7 +5,7 @@ const SEND_ERROR = 'Не удалось отправить форму. Попр�
 
 const API_URL = 'https://26.javascript.pages.academy/keksobooking';
 
-const getData = (onSuccess) => {
+const   getData = (onSuccess) => {
   fetch(`${API_URL}/data`)
     .then((response) => response.json())
     .then((data) => onSuccess(data))
