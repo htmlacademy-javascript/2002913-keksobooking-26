@@ -1,11 +1,12 @@
 import {activateForm, activateFilters} from './form-state.js';
 import {renderCard} from './popup.js';
 import {getData} from './api.js';
+import {fisterByType} from './filter.js';
 
 const SIZE_MAIN_PIN = 52;
 const SIZE_REGULAR_PIN = 40;
 const DEFAULT_SCALE_MAP = 12;
-const APARTMENTS_AMOUNT = 10;
+
 const DefaultLocation = {
   LAT: 35.65283,
   LNG: 139.73947,
@@ -44,15 +45,20 @@ const mainMarker = L.marker(
 
 const map = L.map('map-canvas');
 
+const markerGroup = L.layerGroup().addTo(map);
+
 const createMarker = (adv) => {
   const marker = L.marker(adv.location, {icon:pinIcon});
   marker
-    .addTo(map)
+    .addTo(markerGroup)
     .bindPopup(renderCard(adv));
 };
 
 const renderMarkers = (data) => {
-  data.forEach((adv) => {
+  let ads = [];
+  ads = data;
+  fisterByType();
+  ads.forEach((adv) => {
     createMarker(adv, {icon: pinIcon,});
   });
 };
@@ -63,7 +69,7 @@ const onMarkerMove =  (evt) => {
 };
 
 const onDataLoad = (data) => {
-  renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
+  renderMarkers(data);
   activateFilters();
 };
 
