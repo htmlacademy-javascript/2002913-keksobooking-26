@@ -1,6 +1,7 @@
-// import { toggleElements } from './form-state.js';
-// impo
+import {renderMarkers, clearMarkers} from './map.js';
+
 const APARTMENTS_AMOUNT = 10;
+
 
 const filterForm = document.querySelector('.map__filters');
 const typeFilterField = filterForm.querySelector('#housing-type');
@@ -9,32 +10,26 @@ const typeFilterField = filterForm.querySelector('#housing-type');
 // // const guestsFilterField = filterForm.querySelector('#housing-guests');
 // // const featuresFilterFields = filterForm.querySelectorAll('.map__checkbox');
 
-const ads = [];
 
-// ads = data;
+const filterByType = (ad, type) => type === 'any' || type === ad.offer.type;
 
+const filterAds = (ads) => {
+  const adType = typeFilterField.value;
 
-const filterByType = (ads, type) => type === 'any' || type === ads.offer.type;
+  return ads
+    .filter((ad) => filterByType(ad, adType))
+    .slice(0, APARTMENTS_AMOUNT);
+};
 
-const filterAds = () => {
-  const selescetType = typeFilterField.value;
-
-  const filteredAds = ads.filter((ad) => filterByType(ad, selescetType));
-
-  return filteredAds.slice(0, APARTMENTS_AMOUNT);
+const onFilterChange = (ads) => {
+  clearMarkers();
+  const filteredAds = filterAds(ads);
+  renderMarkers(filteredAds);
 
 };
 
+const setFilter = (ads) => {
+  filterForm.addEventListener('change', () => onFilterChange(ads));
+};
 
-// const setFilter = () => {
-//   typeFilterField.addEventListener('change', () =>{
-//     markerGroup.clearLayers();
-//     filterAds();
-//     renderMarkers(filterAds())
-//   });
-// };
-
-export {filterByType};
-
-
-console.log(filterAds)
+export {filterByType, setFilter};
