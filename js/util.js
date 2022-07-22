@@ -43,6 +43,7 @@ const renderPopup = (adElement) => {
 
   adElement.addEventListener('click', () => {
     adElement.remove();
+    document.removeEventListener('keydown', onPopupEscKeydown);
   });
   document.addEventListener('keydown', onPopupEscKeydown);
 };
