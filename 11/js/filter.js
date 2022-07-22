@@ -1,40 +1,77 @@
-// import { toggleElements } from './form-state.js';
-// impo
+import {renderMarkers, clearMarkers} from './map.js';
+import {debounce} from './util.js';
+
 const APARTMENTS_AMOUNT = 10;
+const TIMEOUT_DELAY_DEFAULT = 500;
+
+const Price = {
+  MIDDLE: 10000,
+  HIGHT: 50000,
+};
 
 const filterForm = document.querySelector('.map__filters');
 const typeFilterField = filterForm.querySelector('#housing-type');
-// // const priceFilterField = filterForm.querySelector('#housing-price');
-// // const roomsFilterField = filterForm.querySelector('#housing-rooms');
-// // const guestsFilterField = filterForm.querySelector('#housing-guests');
-// // const featuresFilterFields = filterForm.querySelectorAll('.map__checkbox');
-
-const ads = [];
-
-// ads = data;
+const priceFilterField = filterForm.querySelector('#housing-price');
+const roomsFilterField = filterForm.querySelector('#housing-rooms');
+const guestsFilterField = filterForm.querySelector('#housing-guests');
+const featuresFilterFields = filterForm.querySelectorAll('.map__checkbox');
 
 
-const filterByType = (ads, type) => type === 'any' || type === ads.offer.type;
+const filterByType = (ad, type) => type === 'any' || type === ad.offer.type;
 
-const filterAds = () => {
-  const selescetType = typeFilterField.value;
+const filterByPrice = (ad, price) => {
+  switch (price) {
+    case 'any':
+      return true;
+    case 'low':
+      return ad.offer.price < Price.MIDDLE;
+    case 'middle':
+      return (ad.offer.price < Price.HIGHT && ad.offer.price >= Price.MIDDLE);
+    case 'hight':
+      return ad.offer.price >= Price.HIGHT;
+  }
+};
 
-  const filteredAds = ads.filter((ad) => filterByType(ad, selescetType));
+const filterByFeatures = (ad, features) => features.every((feature) => ad.offer.features && ad.offer.features.includes(feature));
 
-  return filteredAds.slice(0, APARTMENTS_AMOUNT);
+
+const filterByRooms = (ad, rooms) => rooms === 'any' || ad.offer.rooms === +rooms;
+
+const filterByGuests = (ad, guests) => guests === 'any' || +guests === ad.offer.guests;
+
+const filterAds = (ads) => {
+  const adType = typeFilterField.value;
+  const adPrice = priceFilterField.value;
+  const adRooms = roomsFilterField.value;
+  const adGuests = guestsFilterField.value;
+
+  const adFeatures = [];
+  featuresFilterFields.forEach((checkbox) => {
+    if (checkbox.checked) {
+      adFeatures.push(checkbox.value);
+    }
+  });
+
+  return ads
+    .filter((ad) => filterByType(ad, adType)
+     && filterByPrice(ad, adPrice)
+     && filterByRooms(ad, adRooms)
+     && filterByGuests(ad, adGuests)
+     && filterByFeatures(ad,adFeatures))
+    .slice(0, APARTMENTS_AMOUNT);
+};
+
+const onFilterChange = (ads) => {
+  clearMarkers();
+  const filteredAds = filterAds(ads);
+  renderMarkers(filteredAds);
 
 };
 
+const setFilter = (ads) => {
+  filterForm.addEventListener('change', () => {
+    debounce(onFilterChange(ads), TIMEOUT_DELAY_DEFAULT);
+  });
+};
 
-// const setFilter = () => {
-//   typeFilterField.addEventListener('change', () =>{
-//     markerGroup.clearLayers();
-//     filterAds();
-//     renderMarkers(filterAds())
-//   });
-// };
-
-export {filterByType};
-
-
-console.log(filterAds)
+export {filterByType, setFilter};

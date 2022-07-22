@@ -1,11 +1,12 @@
 import {activateForm, activateFilters} from './form-state.js';
 import {renderCard} from './popup.js';
 import {getData} from './api.js';
-import {fisterByType} from './filter.js';
+import {setFilter} from './filter.js';
 
 const SIZE_MAIN_PIN = 52;
 const SIZE_REGULAR_PIN = 40;
 const DEFAULT_SCALE_MAP = 12;
+const APARTMENTS_AMOUNT = 10;
 
 const DefaultLocation = {
   LAT: 35.65283,
@@ -55,14 +56,12 @@ const createMarker = (adv) => {
 };
 
 const renderMarkers = (data) => {
-
-  let ads = [];
-  ads = data;
-  fisterByType();
-  ads.forEach((adv) => {
-    createMarker(adv, {icon: pinIcon,});
+  data.forEach((adv) => {
+    createMarker(adv, {icon: pinIcon});
   });
 };
+
+const clearMarkers = () => markerGroup.clearLayers();
 
 const onMarkerMove =  (evt) => {
   const {lat, lng} = evt.target.getLatLng();
@@ -70,8 +69,9 @@ const onMarkerMove =  (evt) => {
 };
 
 const onDataLoad = (data) => {
-  renderMarkers(data);
+  renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
   activateFilters();
+  setFilter();
 };
 
 const initMap = () => {
@@ -92,4 +92,4 @@ const initMap = () => {
   mainMarker.on('move', onMarkerMove);
 };
 
-export {initMap};
+export {initMap, renderMarkers, clearMarkers};
