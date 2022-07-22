@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
+const TIMEOUT_DELAY_DEFAULT = 500;
 
 const createErrorTemplate = document.querySelector('#error')
   .content
@@ -58,10 +59,34 @@ const renderPopupSuccess = () => {
   renderPopup(adElement);
 };
 
+const debounce = (cb, timeoutDelay = TIMEOUT_DELAY_DEFAULT) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => cb.apply(this, rest), timeoutDelay);
+  };
+};
+
+const throttle = (cb, delayBetweenFrames) => {
+  let lastTime = 0;
+
+  return (...rest) => {
+    const now = new Date();
+
+    if (now - lastTime >= delayBetweenFrames) {
+      cb.apply(this, rest);
+      lastTime = now;
+    }
+  };
+};
+
 
 export {
   showAlert,
   renderPopupError,
   renderPopupSuccess,
+  debounce,
+  throttle
 };
 

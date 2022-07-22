@@ -1,6 +1,8 @@
 import {renderMarkers, clearMarkers} from './map.js';
+import {debounce} from './util.js';
 
 const APARTMENTS_AMOUNT = 10;
+const TIMEOUT_DELAY_DEFAULT = 500;
 
 const Price = {
   MIDDLE: 10000,
@@ -67,7 +69,9 @@ const onFilterChange = (ads) => {
 };
 
 const setFilter = (ads) => {
-  filterForm.addEventListener('change', () => onFilterChange(ads));
+  filterForm.addEventListener('change', () => {
+    debounce(onFilterChange(ads), TIMEOUT_DELAY_DEFAULT);
+  });
 };
 
 export {filterByType, setFilter};

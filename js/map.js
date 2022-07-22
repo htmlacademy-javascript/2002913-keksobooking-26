@@ -71,7 +71,7 @@ const onMarkerMove =  (evt) => {
 const onDataLoad = (data) => {
   renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
   activateFilters();
-  setFilter(data);
+  setFilter();
 };
 
 const initMap = () => {
