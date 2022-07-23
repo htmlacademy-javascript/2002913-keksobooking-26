@@ -63,6 +63,14 @@ const renderMarkers = (data) => {
 
 const clearMarkers = () => markerGroup.clearLayers();
 
+const resetMap = () => {
+  mainMarker.setLatLng({
+    lat: DefaultLocation.LAT,
+    lng: DefaultLocation.LNG,
+  });
+  address.placeholder = `${DefaultLocation.LAT}, ${DefaultLocation.LNG}`;
+};
+
 const onMarkerMove =  (evt) => {
   const {lat, lng} = evt.target.getLatLng();
   address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
@@ -71,7 +79,7 @@ const onMarkerMove =  (evt) => {
 const onDataLoad = (data) => {
   renderMarkers(data.slice(0, APARTMENTS_AMOUNT));
   activateFilters();
-  setFilter();
+  setFilter(data);
 };
 
 const initMap = () => {
@@ -92,4 +100,4 @@ const initMap = () => {
   mainMarker.on('move', onMarkerMove);
 };
 
-export {initMap, renderMarkers, clearMarkers};
+export {initMap, renderMarkers, clearMarkers, resetMap};

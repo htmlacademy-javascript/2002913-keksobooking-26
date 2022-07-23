@@ -68,25 +68,10 @@ const debounce = (cb, timeoutDelay = TIMEOUT_DELAY_DEFAULT) => {
   };
 };
 
-const throttle = (cb, delayBetweenFrames) => {
-  let lastTime = 0;
-
-  return (...rest) => {
-    const now = new Date();
-
-    if (now - lastTime >= delayBetweenFrames) {
-      cb.apply(this, rest);
-      lastTime = now;
-    }
-  };
-};
-
-
 export {
   showAlert,
   renderPopupError,
   renderPopupSuccess,
   debounce,
-  throttle
 };
 
