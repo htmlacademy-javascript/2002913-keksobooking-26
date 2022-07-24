@@ -47,7 +47,7 @@ const renderCard = ({ offer, author}) => {
   adElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   adElement.querySelector('.popup__avatar').src = author.avatar;
   priceContainer.innerHTML = '';
-  priceContainer.insertAdjacentHTML('afterbegin', `${offer.price} <span>₽/ночь</span>`);;
+  priceContainer.insertAdjacentHTML('afterbegin', `${offer.price} <span>₽/ночь</span>`);
 
   if (offer.description !== undefined) {
     descriptionContainer.textContent = offer.description;
