@@ -69,9 +69,8 @@ const onFilterChange = (ads) => {
 };
 
 const setFilter = (ads) => {
-  filterForm.addEventListener('change', () => {
-    debounce(onFilterChange(ads), TIMEOUT_DELAY_DEFAULT);
-  });
+  filterForm.addEventListener('change', debounce(() => onFilterChange(ads), TIMEOUT_DELAY_DEFAULT));
+  filterForm.addEventListener('reset', debounce(() => onFilterChange(ads), TIMEOUT_DELAY_DEFAULT));
 };
 
 export {filterByType, setFilter};

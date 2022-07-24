@@ -31,16 +31,16 @@ const showAlert = (message) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const onPopupEscKeydown = (evt, adElement) => {
-  if (isEscapeKey) {
-    evt.preventDefault();
-    adElement.remove();
-    document.removeEventListener('keydown', onPopupEscKeydown);
-  }
-};
-
 const renderPopup = (adElement) => {
   document.body.append(adElement);
+
+  const onPopupEscKeydown = (evt) => {
+    if (isEscapeKey) {
+      evt.preventDefault();
+      adElement.remove();
+      document.removeEventListener('keydown', onPopupEscKeydown);
+    }
+  };
 
   adElement.addEventListener('click', () => {
     adElement.remove();
@@ -68,25 +68,10 @@ const debounce = (cb, timeoutDelay = TIMEOUT_DELAY_DEFAULT) => {
   };
 };
 
-const throttle = (cb, delayBetweenFrames) => {
-  let lastTime = 0;
-
-  return (...rest) => {
-    const now = new Date();
-
-    if (now - lastTime >= delayBetweenFrames) {
-      cb.apply(this, rest);
-      lastTime = now;
-    }
-  };
-};
-
-
 export {
   showAlert,
   renderPopupError,
   renderPopupSuccess,
   debounce,
-  throttle
 };
 
