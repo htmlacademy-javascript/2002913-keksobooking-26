@@ -37,12 +37,17 @@ const apartLoader = () => {
   });
 };
 
-const avatarClear = () => {
+const clearAvatar = () => {
   previewAvatar.src = 'img/muffin-grey.svg';
 };
 
-const apartPreviewClear = () => {
+const clearApartPreview = () => {
   previewApart.innerHTML= '';
 };
 
-export {avatarLoader,apartLoader, avatarClear, apartPreviewClear};
+const clearImages = () => {
+  clearApartPreview();
+  clearAvatar();
+};
+
+export {avatarLoader,apartLoader, clearImages};
