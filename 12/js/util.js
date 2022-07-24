@@ -31,16 +31,16 @@ const showAlert = (message) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const onPopupEscKeydown = (evt, adElement) => {
-  if (isEscapeKey) {
-    evt.preventDefault();
-    adElement.remove();
-    document.removeEventListener('keydown', onPopupEscKeydown);
-  }
-};
-
 const renderPopup = (adElement) => {
   document.body.append(adElement);
+
+  const onPopupEscKeydown = (evt) => {
+    if (isEscapeKey) {
+      evt.preventDefault();
+      adElement.remove();
+      document.removeEventListener('keydown', onPopupEscKeydown);
+    }
+  };
 
   adElement.addEventListener('click', () => {
     adElement.remove();
