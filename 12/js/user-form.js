@@ -1,8 +1,8 @@
-import { sendData } from './api.js';
-import { renderPopupError, renderPopupSuccess } from './util.js';
-import {avatarClear, apartPreviewClear } from './images.js';
-import { resetMap } from './map.js';
-import { resetSlider } from './slider.js';
+import {sendData} from './api.js';
+import {renderPopupError, renderPopupSuccess} from './util.js';
+import {clearImages} from './images.js';
+import {resetMap} from './map.js';
+import {resetSlider} from './slider.js';
 
 const MAX_PRICE = 100000;
 
@@ -66,13 +66,20 @@ const resetPlaceholder = () => {
   priceField.placeholder = minPriceDictionary[type.value];
 };
 
-const onResetClick = () => {
+const resetState = () => {
+  form.reset();
+  formFilter.reset();
+  clearImages();
   resetPlaceholder();
-  resetMap();
   resetSlider();
+  resetMap();
 };
 
-resetButton.addEventListener('click', () => onResetClick());
+const onResetClick = () => {
+  resetState();
+};
+
+resetButton.addEventListener('click', onResetClick);
 
 const validatePrice = (value) => value >= minPrice && value <= MAX_PRICE;
 const validateCapacity = () => roomNumberOptions[roomNumber.value].includes(capacity.value);
@@ -97,11 +104,7 @@ const unblockSubmitButton = () => {
 const onSendSuccess = () => {
   renderPopupSuccess();
   unblockSubmitButton();
-  form.reset();
-  formFilter.reset();
-  avatarClear();
-  apartPreviewClear();
-  resetMap();
+  resetState();
 };
 
 const onSendError = () => {
