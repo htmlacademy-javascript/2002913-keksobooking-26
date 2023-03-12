@@ -1,4 +1,4 @@
-<h1 align="center">Личный проект «Drink2go» </h1>
+<h1 align="center">Личный проект </h1>
 
 ---
 <p align="center">
