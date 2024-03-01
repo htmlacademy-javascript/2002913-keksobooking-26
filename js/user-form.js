@@ -1,5 +1,8 @@
-import { sendData } from './api.js';
-import { renderPopupError, renderPopupSuccess } from './util.js';
+import {sendData} from './api.js';
+import {renderPopupError, renderPopupSuccess} from './util.js';
+import {clearImages} from './images.js';
+import {resetMap} from './map.js';
+import {resetSlider} from './slider.js';
 
 const MAX_PRICE = 100000;
 
@@ -19,6 +22,7 @@ const roomNumberOptions = {
 };
 
 const form = document.querySelector('.ad-form');
+const formFilter = document.querySelector('.map__filters');
 const type = form.querySelector('#type');
 const priceField = form.querySelector('#price');
 const roomNumber = form.querySelector('#room_number');
@@ -26,6 +30,7 @@ const capacity = form.querySelector('#capacity');
 const timeIn = form.querySelector('#timein');
 const timeOut = form.querySelector('#timeout');
 const submitButton = form.querySelector('.ad-form__submit');
+const resetButton = form.querySelector('.ad-form__reset');
 
 
 const minPrice = minPriceDictionary[type.value];
@@ -57,6 +62,25 @@ const onTimeOutChange = () => {
   timeIn.value = timeOut.value;
 };
 
+const resetPlaceholder = () => {
+  priceField.placeholder = minPriceDictionary[type.value];
+};
+
+const resetState = () => {
+  form.reset();
+  formFilter.reset();
+  clearImages();
+  resetPlaceholder();
+  resetSlider();
+  resetMap();
+};
+
+const onResetClick = () => {
+  resetState();
+};
+
+resetButton.addEventListener('click', onResetClick);
+
 const validatePrice = (value) => value >= minPrice && value <= MAX_PRICE;
 const validateCapacity = () => roomNumberOptions[roomNumber.value].includes(capacity.value);
 
@@ -80,7 +104,7 @@ const unblockSubmitButton = () => {
 const onSendSuccess = () => {
   renderPopupSuccess();
   unblockSubmitButton();
-  form.reset();
+  resetState();
 };
 
 const onSendError = () => {
